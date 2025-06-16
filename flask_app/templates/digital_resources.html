@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Digital Resources</h2>
+    <p>Explore a wide variety of digital content and learning platforms available through the library.</p>
+
+    {% if resources %}
+        <ul>
+            {% for resource in resources %}
+                <li>
+                    <h3>{{ resource.name | default('N/A', true) }}</h3>
+                    {% if resource.description %}
+                        <p>{{ resource.description }}</p>
+                    {% endif %}
+                    {% if resource.link %}
+                        <p><a href="{{ resource.link }}" target="_blank">Access {{ resource.name }}</a></p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No digital resources are listed at this time. Please check back later.</p>
+    {% endif %}
+{% endblock %}

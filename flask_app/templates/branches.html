@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Library Branches</h2>
+    {% if branches %}
+        <ul>
+            {% for branch in branches %}
+                <li>
+                    <h3>{{ branch.name | default('N/A', true) }}</h3>
+                    <p>
+                        {% if branch.address %}
+                            <strong>Address:</strong> {{ branch.address }}<br>
+                        {% endif %}
+                        {% if branch.hours %}
+                            <strong>Hours:</strong> {{ branch.hours }}<br>
+                        {% endif %}
+                        {% if branch.phone %}
+                            <strong>Phone:</strong> {{ branch.phone }}<br>
+                        {% endif %}
+                        {% if branch.website_link %}
+                            <strong>Website:</strong> <a href="{{ branch.website_link }}" target="_blank">{{ branch.website_link }}</a>
+                        {% endif %}
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {# This message will show if branches list is empty and no specific 'unavailable' message was passed #}
+        <p>No branch information to display at this time.</p>
+    {% endif %}
+    {# TODO: If a real API is implemented, reconsider error messages vs. empty list display #}
+{% endblock %}

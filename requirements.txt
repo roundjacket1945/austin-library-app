@@ -1,0 +1,6 @@
+Flask-SQLAlchemy
+Flask-WTF
+Werkzeug
+Flask-Login
+requests
+pytest

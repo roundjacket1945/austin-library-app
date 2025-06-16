@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>My Holds</h2>
+    {% if holds %}
+        <ul>
+            {% for hold_item in holds %}
+                <li>
+                    <strong>Title:</strong> {{ hold_item.item_title | default('N/A', true) }}<br>
+                    <strong>Item ID:</strong> {{ hold_item.item_id | default('N/A', true) }}<br>
+                    <strong>Placed At:</strong> {{ hold_item.placed_at.strftime('%Y-%m-%d %H:%M:%S') if hold_item.placed_at else 'N/A' }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no items on hold.</p>
+    {% endif %}
+{% endblock %}

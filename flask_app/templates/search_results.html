@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Search Catalog</h2>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.query.label }}<br>
+            {{ form.query(size=32) }}<br>
+            {% for error in form.query.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    {% if results %}
+        <h3>Results:</h3>
+        <ul>
+            {% for item in results %}
+                <li>
+                    <strong>Title:</strong> {{ item.title | default('N/A', true) }}<br>
+                    <strong>Author/Creator:</strong> {{ item.creator | default('N/A', true) }}<br>
+                    <strong>Type:</strong> {{ item.type.name | default('N/A', true) }}<br>
+                    <strong>ID:</strong> {{ item.id | default('N/A', true) }}<br>
+                    {% if current_user.is_authenticated %}
+                        <form method="POST" action="{{ url_for('place_hold', item_id=item.id) }}" style="display: inline;">
+                            <!-- It's better to use a POST request for actions that change state -->
+                            <!-- We'll need a CSRF token if we use a FlaskForm for this, -->
+                            <!-- but for a simple link-like button a direct POST without a form class is also possible -->
+                            <!-- However, to be consistent with WTForms, a small form is better. -->
+                            <!-- For now, let's make it a GET link and change to POST if there's time -->
+                            <a href="{{ url_for('place_hold', item_id=item.id, item_title=item.title) }}">Place Hold</a>
+                        </form>
+                    {% endif %}
+                </li>
+            {% else %}
+                <li>No results found for your query.</li>
+            {% endfor %}
+        </ul>
+    {% elif request.method == 'POST' %}
+        <p>No results found for your query, or an error occurred.</p>
+    {% endif %}
+{% endblock %}
